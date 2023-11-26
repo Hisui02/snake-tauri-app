@@ -10,11 +10,22 @@
       canvas {
         border: 1px solid black;
       }
+      span {
+        position: fixed;
+        top: 0;
+        right: 0;
+        margin: 2em;
+        background-color: #f6f6f6;
+        color: #0f0f0f;
+        padding: 1em;
+        border-radius: 0.5em;
+      }
     </style>
   </head>
 
   <body>
     <canvas id="gameCanvas" width="500" height="500"></canvas>
+    <span id="points">0</span>
     <script src="/src/game.ts"></script>
   </body>
 </html>
