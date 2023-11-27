@@ -6,7 +6,7 @@ const ctx: CanvasRenderingContext2D = canvas.getContext(
 ) as CanvasRenderingContext2D;
 
 const GAMEVARS = {
-  gameTimer: 500,
+  gameTimer: 250,
   step: 25,
   snakeColor: "purple",
   pointColor: "yellow",
@@ -32,7 +32,8 @@ let isPointGenerated: boolean = false;
 let xPointPos: number;
 let yPointPos: number;
 
-const { step, gameTimer } = GAMEVARS;
+const { step } = GAMEVARS;
+let { gameTimer } = GAMEVARS;
 
 function draw() {
   //Clearing rects
@@ -147,8 +148,14 @@ const calcNextPosition = (direction: string) => {
 };
 
 const addPoint = () => {
+  //Adding the point
   points += 1;
   document.getElementById("points")!.textContent = points.toString();
+
+  //Speeding up the game
+  gameTimer *= 0.95;
+
+  //Adding 1 to snake length
   snake.push({
     xPos: snake[snake.length - 1].xPos,
     yPos: snake[snake.length - 1].yPos,
