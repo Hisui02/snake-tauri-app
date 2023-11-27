@@ -16,9 +16,59 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  font-family: "Courier New", Courier, monospace;
+}
+
+canvas {
+  border: 1px solid black;
+  background-image: url("./assets/checker-bg.png");
+}
+#pointsText {
+  margin: 2em;
+  background-color: #f6f6f6;
+  color: #0f0f0f;
+  padding: 1em 2em;
+  border-radius: 0.5em;
+  font-weight: 600;
+}
+
+#points {
+  font-size: large;
+  font-weight: 800;
+}
+
+#text {
+  position: fixed;
+  transform: translate(-50%, 0);
+  z-index: 5;
+  font-weight: 800;
+  color: black;
+  top: 50vh;
+  left: 50vw;
+  font-size: xx-large;
+  width: max-content;
+  animation: blink 2s infinite;
+}
+
+#controls {
+  margin-right: 2rem;
+  list-style-type: none;
+}
+
+@keyframes blink {
+  from {
+    opacity: 100%;
+  }
+  50% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

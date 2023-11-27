@@ -5,24 +5,29 @@ const ctx: CanvasRenderingContext2D = canvas.getContext(
   "2d"
 ) as CanvasRenderingContext2D;
 
+let pointImg = new Image();
+pointImg.src = "/src/assets/apple-svg.svg";
+
 const GAMEVARS = {
   gameTimer: 250,
   step: 25,
-  snakeColor: "purple",
+  snakeColor1: "#ED6464",
+  snakeColor2: "#CC3E36",
   pointColor: "yellow",
 };
 
+let gamePaused: boolean = true;
 let gameLost: boolean = false;
+
+const text = document.getElementById("text");
 
 let snake: { xPos: number; yPos: number }[] = [
   { xPos: 0, yPos: 25 },
   { xPos: 0, yPos: 0 },
 ];
 
-let xPos = snake[0].xPos;
-let yPos = snake[0].yPos;
-let xPosPrev = snake[1].xPos;
-let yPosPrev = snake[1].yPos;
+let { xPos, yPos } = snake[0];
+let { xPos: xPosPrev, yPos: yPosPrev } = snake[1];
 
 let direction: string = "DOWN";
 let changedDirection = false;
@@ -40,16 +45,16 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   //Drawing point
-  ctx.fillStyle = GAMEVARS.pointColor;
-  ctx.fillRect(xPointPos, yPointPos, step, step);
+  drawPoint();
 
   //Drawing snake
-  ctx.fillStyle = GAMEVARS.snakeColor;
   drawSnake();
 
   if (!isPointGenerated) generatePoint();
 
   changedDirection = false;
+
+  if (gameLost) loosingHandler();
 
   setTimeout(() => {
     if (!gameLost) requestAnimationFrame(update);
@@ -58,8 +63,10 @@ function draw() {
 
 function update() {
   directionHandler();
-  calcNextPosition(direction);
-  evaluateNextPosition();
+  if (!gamePaused) {
+    calcNextPosition(direction);
+    evaluateNextPosition();
+  }
   draw();
 }
 
@@ -98,6 +105,17 @@ const directionHandler = () => {
             if (direction != "LEFT") {
               direction = "RIGHT";
               changedDirection = true;
+            }
+            break;
+          case " ":
+            gamePaused = !gamePaused;
+            if (!gamePaused) {
+              text!.style.display = "none";
+            } else {
+              text!.style.display = "inline";
+            }
+            if (gameLost) {
+              window.location.reload();
             }
             break;
           default:
@@ -190,28 +208,64 @@ const evaluateNextPosition = () => {
 };
 
 const drawSnake = () => {
-  for (let i = 0; i < snake.length; i++) {
+  //Snake body
+  for (let i = 1; i < snake.length; i++) {
+    if (i % 2 == 0) {
+      ctx.fillStyle = GAMEVARS.snakeColor1;
+    } else {
+      ctx.fillStyle = GAMEVARS.snakeColor2;
+    }
     ctx.fillRect(snake[i].xPos, snake[i].yPos, step, step);
   }
+
+  //Snake head
+
   ctx.beginPath();
   ctx.arc(
     snake[0].xPos + step / 2,
     snake[0].yPos + step / 2,
-    step / 4,
+    step / 2,
     0,
     2 * Math.PI
   );
-  // ctx.ellipse(
-  //   snake[0].xPos + step / 2,
-  //   snake[0].yPos + step / 6,
-  //   step / 2,
-  //   step,
-  //   0,
-  //   0,
-  //   2 * Math.PI
-  // );
-  ctx.fillStyle = "black";
+  ctx.fillStyle = GAMEVARS.snakeColor1;
   ctx.fill();
+
+  let xOri = step; //Initialize
+  let yOri = step; //Initialize
+
+  switch (direction) {
+    case "UP":
+      xOri = step;
+      yOri = step / 2;
+      ctx.fillRect(snake[0].xPos, snake[0].yPos + step / 2, xOri, yOri);
+      break;
+    case "DOWN":
+      xOri = step;
+      yOri = step / 2;
+      ctx.fillRect(snake[0].xPos, snake[0].yPos, xOri, yOri);
+      break;
+    case "RIGHT":
+      xOri = step / 2;
+      yOri = step;
+      ctx.fillRect(snake[0].xPos, snake[0].yPos, xOri, yOri);
+      break;
+    case "LEFT":
+      xOri = step / 2;
+      yOri = step;
+      ctx.fillRect(snake[0].xPos + step / 2, snake[0].yPos, xOri, yOri);
+      break;
+  }
+};
+
+const loosingHandler = () => {
+  text!.textContent = "YOU LOST!";
+  text!.style.animation = "none";
+  text!.style.display = "inline";
+};
+
+const drawPoint = () => {
+  ctx.drawImage(pointImg, xPointPos, yPointPos);
 };
 
 update();

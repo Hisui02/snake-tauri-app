@@ -5,27 +5,17 @@
     <link rel="stylesheet" href="/src/styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Snake Game | Hisui</title>
-    <!-- <script type="module" src="/src/main.ts" defer></script> -->
-    <style>
-      canvas {
-        border: 1px solid black;
-      }
-      span {
-        position: fixed;
-        top: 0;
-        right: 0;
-        margin: 2em;
-        background-color: #f6f6f6;
-        color: #0f0f0f;
-        padding: 1em;
-        border-radius: 0.5em;
-      }
-    </style>
+    <script type="module" src="/src/game.ts"></script>
   </head>
 
   <body>
+    <span id="pointsText"><span id="points">0</span> points</span>
+
     <canvas id="gameCanvas" width="500" height="500"></canvas>
-    <span id="points">0</span>
-    <script type="module" src="/src/game.ts"></script>
+    <ul id="controls">
+      <li>Use WASD or ArrowKeys to move</li>
+      <li>Press SPACE to pause or restart</li>
+    </ul>
+    <span id="text">PRESS SPACE</span>
   </body>
 </html>
