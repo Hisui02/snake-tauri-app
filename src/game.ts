@@ -5,15 +5,12 @@ const ctx: CanvasRenderingContext2D = canvas.getContext(
   "2d"
 ) as CanvasRenderingContext2D;
 
-let pointImg = new Image();
-pointImg.src = "/src/assets/apple-svg.svg";
-
 const GAMEVARS = {
   gameTimer: 250,
   step: 25,
   snakeColor1: "#ED6464",
   snakeColor2: "#CC3E36",
-  pointColor: "yellow",
+  pointColor: "purple",
 };
 
 let gamePaused: boolean = true;
@@ -219,7 +216,6 @@ const drawSnake = () => {
   }
 
   //Snake head
-
   ctx.beginPath();
   ctx.arc(
     snake[0].xPos + step / 2,
@@ -231,8 +227,8 @@ const drawSnake = () => {
   ctx.fillStyle = GAMEVARS.snakeColor1;
   ctx.fill();
 
-  let xOri = step; //Initialize
-  let yOri = step; //Initialize
+  let xOri = 0; //Initialize
+  let yOri = 0; //Initialize
 
   switch (direction) {
     case "UP":
@@ -265,7 +261,10 @@ const loosingHandler = () => {
 };
 
 const drawPoint = () => {
-  ctx.drawImage(pointImg, xPointPos, yPointPos);
+  ctx.beginPath();
+  ctx.arc(xPointPos + step / 2, yPointPos + step / 2, step / 3, 0, 2 * Math.PI);
+  ctx.fillStyle = GAMEVARS.pointColor;
+  ctx.fill();
 };
 
 update();
