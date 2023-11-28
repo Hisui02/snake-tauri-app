@@ -8,8 +8,8 @@ const ctx: CanvasRenderingContext2D = canvas.getContext(
 const GAMEVARS = {
   gameTimer: 250,
   step: 25,
-  snakeColor1: "#ED6464",
-  snakeColor2: "#CC3E36",
+  snakeColor1: "#0C023E",
+  snakeColor2: "#1D2570",
   pointColor: "purple",
 };
 
